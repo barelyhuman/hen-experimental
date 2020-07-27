@@ -95,20 +95,22 @@ export default () => {
   return (
     <>
       <div className="container">{testComponent()}</div>
-      <Editor
-        value={code}
-        onValueChange={(_code) => {
-          setCode(_code);
-          setError("");
-        }}
-        highlight={(code) => highlight(code, languages.js)}
-        padding={10}
-        style={{
-          fontFamily: '"Fira code", "Fira Mono", monospace',
-          fontSize: 12,
-        }}
-        textareaClassName="editorArea"
-      />
+      <div className="editor">
+        <Editor
+          value={code}
+          onValueChange={(_code) => {
+            setCode(_code);
+            setError("");
+          }}
+          highlight={(code) => highlight(code, languages.js)}
+          padding={8}
+          style={{
+            fontFamily: '"Fira code", "Fira Mono", monospace',
+            fontSize: 12,
+          }}
+          textareaClassName="editorArea"
+        />
+      </div>
       {error ? <p className="error">{error}</p> : null}
 
       <style jsx>
@@ -123,17 +125,8 @@ export default () => {
           }
 
           .editor {
+            margin: 8px 0px;
             position: relative;
-            height: 100%;
-            width: 100%;
-          }
-
-          textarea {
-            position: relative;
-            left: 0px;
-            top: 0px;
-            height: 100%;
-            width: 100%;
           }
         `}
       </style>
