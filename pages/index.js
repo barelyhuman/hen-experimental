@@ -1,10 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { transform } from "@babel/standalone";
 import * as Acorn from "acorn";
 import { generate as codeGenerate } from "escodegen";
 import React from "react";
-import ObjPath from "object-path";
+import ObjPath, { set } from "object-path";
 import defaultCode from "snippets/input";
+import Editor from "react-simple-code-editor";
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
 
 export default () => {
   const [code, setCode] = useState(defaultCode);
@@ -91,14 +95,59 @@ export default () => {
   return (
     <>
       <div className="container">{testComponent()}</div>
-      <div className="editor">
-        <textarea value={code} onChange={handleCodeChange}></textarea>
-      </div>
-      <p className="error">{error}</p>
+      <Editor
+        value={code}
+        onValueChange={(_code) => {
+          setCode(_code);
+          setError("");
+        }}
+        highlight={(code) => highlight(code, languages.js)}
+        padding={10}
+        style={{
+          fontFamily: '"Fira code", "Fira Mono", monospace',
+          fontSize: 12,
+        }}
+        textareaClassName="editorArea"
+      />
+      {error ? <p className="error">{error}</p> : null}
+
       <style jsx>
         {`
           .error {
-            color: #e00;
+            margin-top: 8px;
+            padding: 10px;
+            color: #fff;
+            border-radius: 4px;
+            font-family: sans-serif;
+            background: #e00;
+          }
+
+          .editor {
+            position: relative;
+            height: 100%;
+            width: 100%;
+          }
+
+          textarea {
+            position: relative;
+            left: 0px;
+            top: 0px;
+            height: 100%;
+            width: 100%;
+          }
+        `}
+      </style>
+      <style jsx global>
+        {`
+          .editorArea {
+            border-radius: 4px !important;
+            border: 2px solid rgba(12, 12, 13, 0.1) !important;
+            outline: none;
+          }
+
+          .editorArea:hover,
+          .editorArea:focus {
+            border-color: black !important;
           }
         `}
       </style>
