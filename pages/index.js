@@ -10,7 +10,7 @@ import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 
-export default () => {
+const HomePage = () => {
   const [code, setCode] = useState(defaultCode);
   const [Component, setComponent] = useState(null);
   const [error, setError] = useState("");
@@ -147,3 +147,5 @@ export default () => {
     </>
   );
 };
+
+export default HomePage;
